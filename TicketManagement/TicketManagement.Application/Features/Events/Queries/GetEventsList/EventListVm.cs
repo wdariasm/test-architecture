@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketManagement.Application.Features.Events
+namespace TicketManagement.Application.Features.Events.Queries.GetEventsList
 {
     public class EventListVm
     {
