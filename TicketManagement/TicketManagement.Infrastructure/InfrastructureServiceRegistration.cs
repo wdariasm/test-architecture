@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using TicketManagement.Application.Contracts.Infrastructure;
 using TicketManagement.Application.Models.Mail;
+using TicketManagement.Infrastructure.FileExport;
 using TicketManagement.Infrastructure.Mail;
 
 namespace TicketManagement.Infrastructure
@@ -12,6 +13,7 @@ namespace TicketManagement.Infrastructure
             IConfiguration configuration)
         {
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.AddTransient<ICsvExporter, CsvExporter>();
             services.AddTransient<IEmailService, EmailService>();
 
             return services;
