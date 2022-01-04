@@ -11,7 +11,6 @@ namespace TicketManagement.Persistence.IntegrationTests
     public class TicketDbContextTests
     {
         private readonly TicketDbContext _ticketDbContext;
-        private readonly Mock<ILoggedInUserService> _loggedInUserServiceMock;
         private readonly string _loggedInUserId;
 
         public TicketDbContextTests()
@@ -20,10 +19,10 @@ namespace TicketManagement.Persistence.IntegrationTests
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
 
             _loggedInUserId = "00000000-0000-0000-0000-000000000000";
-            _loggedInUserServiceMock = new Mock<ILoggedInUserService>();
-            _loggedInUserServiceMock.Setup(m => m.UserId).Returns(_loggedInUserId);
+            var loggedInUserServiceMock = new Mock<ILoggedInUserService>();
+            loggedInUserServiceMock.Setup(m => m.UserId).Returns(_loggedInUserId);
 
-            _ticketDbContext = new TicketDbContext(dbContextOptions, _loggedInUserServiceMock.Object);
+            _ticketDbContext = new TicketDbContext(dbContextOptions, loggedInUserServiceMock.Object);
         }
 
         [Fact]

@@ -7,6 +7,7 @@ using TicketManagement.Application.Features.Events.Commands.UpdateEvent;
 using TicketManagement.Application.Features.Events.Queries.GetEventDetail;
 using TicketManagement.Application.Features.Events.Queries.GetEventsExport;
 using TicketManagement.Application.Features.Events.Queries.GetEventsList;
+using TicketManagement.Application.Features.Orders.Queries.GetOrdersForMonth;
 using TicketManagement.Domain.Entities;
 
 namespace TicketManagement.Application.Profiles
@@ -26,6 +27,8 @@ namespace TicketManagement.Application.Profiles
             CreateMap<Category, CategoryListVm>();
             CreateMap<Category, CategoryEventListVm>();
             CreateMap<Category, CreateCategoryDto>();
+
+            CreateMap<Order, OrdersForMonthDto>();
         }
     }
 }

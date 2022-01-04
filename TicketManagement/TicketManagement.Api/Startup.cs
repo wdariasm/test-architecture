@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using TicketManagement.Api.Services;
 using TicketManagement.Api.Utility;
@@ -32,7 +33,7 @@ namespace TicketManagement.Api
             services.AddInfrastructureServices(Configuration);
             services.AddPersistenceServices(Configuration);
 
-            services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+            services.TryAddSingleton<ILoggedInUserService, LoggedInUserService>();
 
             services.AddControllers();
             services.AddCors(options =>
