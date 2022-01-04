@@ -11,9 +11,9 @@ namespace TicketManagement.Application.Features.Categories.Commands.CreateCateog
     public class CreateCategoryCommandHandler: IRequestHandler<CreateCategoryCommand, CreateCategoryCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IAsyncRepository<Category> _categoryRepository;
 
-        public CreateCategoryCommandHandler(IMapper mapper, ICategoryRepository categoryRepository)
+        public CreateCategoryCommandHandler(IMapper mapper, IAsyncRepository<Category> categoryRepository)
         {
             _mapper = mapper;
             _categoryRepository = categoryRepository;

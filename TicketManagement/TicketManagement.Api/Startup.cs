@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
+using TicketManagement.Api.Services;
 using TicketManagement.Api.Utility;
 using TicketManagement.Application;
+using TicketManagement.Application.Contracts;
 using TicketManagement.Infrastructure;
 using TicketManagement.Persistence;
 
@@ -29,8 +31,10 @@ namespace TicketManagement.Api
             services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
             services.AddPersistenceServices(Configuration);
-            services.AddControllers();
 
+            services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+
+            services.AddControllers();
             services.AddCors(options =>
             {
                 options.AddPolicy("Open", builder=> builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
