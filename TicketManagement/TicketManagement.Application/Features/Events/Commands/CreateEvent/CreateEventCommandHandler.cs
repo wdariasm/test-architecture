@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using TicketManagement.Application.Contracts.Infrastructure;
 using TicketManagement.Application.Contracts.Persistence;
 using TicketManagement.Application.Exceptions;
@@ -16,12 +17,14 @@ namespace TicketManagement.Application.Features.Events.Commands.CreateEvent
         private readonly IMapper _mapper;
         private readonly IEventRepository _eventRepository;
         private readonly IEmailService _emailService;
+        private readonly ILogger<CreateEventCommandHandler> _logger;
 
-        public CreateEventCommandHandler(IMapper mapper, IEventRepository eventRepository, IEmailService emailService)
+        public CreateEventCommandHandler(IMapper mapper, IEventRepository eventRepository, IEmailService emailService, ILogger<CreateEventCommandHandler> logger)
         {
             _mapper = mapper;
             _eventRepository = eventRepository;
             _emailService = emailService;
+            _logger = logger;
         }
         public async Task<Guid> Handle(CreateEventCommand request, CancellationToken cancellationToken)
         {
@@ -47,7 +50,7 @@ namespace TicketManagement.Application.Features.Events.Commands.CreateEvent
             }
             catch (Exception ex)
             {
-                
+                _logger.LogError($"Mailing about event {@event.EventId} failed due to an error with the mail service: {ex.Message}");
             }
 
             return @event.EventId;

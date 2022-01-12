@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Amazon.SimpleEmailV2;
 using Amazon.SimpleEmailV2.Model;
+using Microsoft.Extensions.Logging;
 using TicketManagement.Application.Contracts.Infrastructure;
 using TicketManagement.Application.Models.Mail;
 
@@ -11,11 +12,13 @@ namespace TicketManagement.Infrastructure.Mail
 {
     public class EmailService : IEmailService
     {
-        private EmailSettings emailSettings;
+        private EmailSettings _emailSettings;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IOptions<EmailSettings> mailSetting)
+        public EmailService(IOptions<EmailSettings> mailSetting, ILogger<EmailService> logger)
         {
-            emailSettings = mailSetting.Value;
+            _emailSettings = mailSetting.Value;
+            _logger = logger;
         }
 
         public async Task<bool> SendEmail(Email email)
@@ -45,8 +48,13 @@ namespace TicketManagement.Infrastructure.Mail
             };
 
             using var client = new AmazonSimpleEmailServiceV2Client();
+            _logger.LogInformation("Email sent");
             var result = await client.SendEmailAsync(sendRequest);
-            return result.HttpStatusCode == HttpStatusCode.OK;
+            if (result.HttpStatusCode == HttpStatusCode.OK)
+                return true;
+
+            _logger.LogError("Email sending failed");
+            return false;
         }
     }
 }

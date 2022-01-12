@@ -50,13 +50,13 @@ namespace TicketManagement.Api.Middleware
                     result = notFoundException.Message;
                     break;
                 case Exception ex:
-                    httpStatusCode = HttpStatusCode.BadRequest;
                     result = ex.Message;
                     break;
             }
 
             context.Response.StatusCode = (int)httpStatusCode;
-            return context.Response.WriteAsync(result);
+            var response = JsonConvert.SerializeObject(new {Message = result});
+            return context.Response.WriteAsync(response);
         }
     }
 }
