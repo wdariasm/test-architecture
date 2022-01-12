@@ -11,6 +11,7 @@ using TicketManagement.Application;
 using TicketManagement.Application.Contracts;
 using TicketManagement.Infrastructure;
 using TicketManagement.Persistence;
+using TicketManagement.Api.Middleware;
 
 namespace TicketManagement.Api
 {
@@ -73,6 +74,8 @@ namespace TicketManagement.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GloboTicket Ticket Management API");
             });
+
+            app.UseCustomExceptionHandler();
 
             app.UseCors("Open");
             app.UseEndpoints(endPoints => { endPoints.MapControllers(); });
